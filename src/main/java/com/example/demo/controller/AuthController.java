@@ -42,10 +42,10 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<?> register(@Valid @RequestBody SignUpForm signUpForm){
         if(userService.existsByUsername(signUpForm.getUsername())){
-            return new ResponseEntity<>(new ResponMessage("The username existed! Please try again!"), HttpStatus.OK);
+            return new ResponseEntity<>(new ResponMessage("nouser"), HttpStatus.OK);
         }
         if(userService.existsByEmail(signUpForm.getEmail())){
-            return new ResponseEntity<>(new ResponMessage("The email existed! Please try again"), HttpStatus.OK);
+            return new ResponseEntity<>(new ResponMessage("noemail"), HttpStatus.OK);
         }
         User user = new User(signUpForm.getName(), signUpForm.getUsername(), signUpForm.getEmail(),passwordEncoder.encode(signUpForm.getPassword()));
         Set<String> strRoles = signUpForm.getRoles();
@@ -69,7 +69,7 @@ public class AuthController {
         });
         user.setRoles(roles);
         userService.save(user);
-        return new ResponseEntity<>(new ResponMessage("Create user success!"), HttpStatus.OK);
+        return new ResponseEntity<>(new ResponMessage("yes"), HttpStatus.OK);
     }
     @PostMapping("/signin")
     public ResponseEntity<?> login(@Valid @RequestBody SignInForm signInForm){
